@@ -1,0 +1,67 @@
+<div class="classHeader">
+    <div>{{#parseClassName moduleName}}{{/parseClassName}}</div>
+     {{#if beta}}<div class="api-status api-status-beta">Beta</div>{{/if}}{{#if deprecated}}<div class="api-status api-status-deprecated">Deprecated</div>{{/if}}
+</div>
+{{#if uses}}
+    Uses:
+    {{#each uses}}
+        <a href="{{this}}.html">{{this}}</a>
+    {{/each}}
+    <br>
+{{/if}}
+{{#if extension_for}}
+    Extension For:
+    {{#each extension_for}}
+        <a href="{{this}}.html">{{this}}</a>
+    {{/each}}
+    <br>
+{{/if}}
+{{#if extends}}
+    Extends: {{#crossLink extends}}{{/crossLink}}<br/><br/>
+{{/if}}
+<div class="intro">{{{classDescription}}}</div>
+
+{{#if is_constructor}}
+    {{#is_constructor}}
+    {{>method}}
+    {{/is_constructor}}
+{{/if}}
+
+<div id="classdocs">
+    {{#if properties}}
+    <h3>Properties</h3>
+    <div>
+        {{#properties}}
+            {{>props}}
+        {{/properties}}
+    </div>
+    {{/if}}
+
+    {{#if methods}}
+    <h3>Methods</h3>
+    <div>
+        {{#methods}}
+            {{>method}}
+        {{/methods}}
+    </div>
+    {{/if}}
+
+    {{#if attrs}}
+    <h2>Attributes</h2>
+    <div>
+        {{#attrs}}
+            {{>attrs}}
+        {{/attrs}}
+    </div>
+    {{/if}}
+
+    {{#if events}}
+    <h2>Events</h2>
+    <div>
+        {{#events}}
+            {{>events}}
+        {{/events}}
+    </div>
+    {{/if}}
+
+</div>

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+COMPONENT=`echo $1 | sed -e 's/[\\/&]/\\\\&/g'`
+sed -i 's/{path:"'$COMPONENT'"\},//' /opt/ericsson/ERICprescontainer_CXP9030205/html/containerComponents.js

@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/DECORATION/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
+    <bannerLeft>
+        <name>Client Container</name>
+    </bannerLeft>
+
+    <publishDate position="right"/>
+
+    <bannerRight>
+        <src>images/logo.png</src>
+    </bannerRight>
+    <body>
+        <links>
+            <item name="CDS Portal" href="http://pdu-oss-tools.lmera.ericsson.se/cds/"/>
+            <item name="UI SDK" href="/../../uisdk/latest/index.html"/>
+            <item name="Ericsson" href="http://www.ericsson.com/"/>
+        </links>
+
+        <menu name="Client Container">
+            <item name="Overview" href="/index.html"/>
+            <item name="Getting Started" href="/gettingStarted.html"/>
+            <item name="Container Configuration" href="/config.html"/>
+            <item name="System Bar" href="/systembar.html"/>
+            <item name="App Configuration" href="/app-config.html"/>
+            <item name="Breadcrumb" href="/breadcrumb.html"/>
+            <item name="App Communication" href="/app-communication.html"/>
+        </menu>
+
+        <menu name="Tutorials">
+            <item name="Create a new Component" href="/tutorials/createNewComponent.html"/>
+        </menu>
+
+
+        <menu name="Additional Information">
+            <item name="FOSS and 3PP" href="foss.html"/>
+            <item name="Revision History" href="revisions.html"/>
+        </menu>
+    </body>
+    <skin>
+        <groupId>com.ericsson.cds</groupId>
+        <artifactId>ericsson-skin-stats</artifactId>
+        <version>1.0.0</version>
+    </skin>
+    <custom>
+        <uiStats>
+            <serverUrl>http://pdu-oss-tools.lmera.ericsson.se/cds/analytics/</serverUrl>
+            <siteId>5</siteId>
+        </uiStats>
+        <fluidoSkin>
+            <sourceLineNumbersEnabled>false</sourceLineNumbersEnabled>
+        </fluidoSkin>
+    </custom>
+</project>

@@ -1,0 +1,16 @@
+{
+	"name": "Client Container API",
+	"description": "",
+	"version": "1.4.50-SNAPSHOT",
+	"url": "",
+	"helpers": [
+		"../config/yuidoc_helpers.js"
+	],
+	"themedir": "../config/ericsson_yui_theme",
+	"options": {
+		"paths": [
+			"../src/"
+		],
+		"outdir": "temp/pre-site/resources/api"
+	}
+}

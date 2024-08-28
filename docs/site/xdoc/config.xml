@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+    <properties>
+        <title>Client Container - Configuration</title>
+    </properties>
+    <body>
+
+        <h1>Configuration</h1>
+
+        <p>Container configuration is performed in a file called <code>config.js</code> (not to be confused with <a href="app-config.html">individual app configuration file</a> of the same name). In production environment it's located in the root, while in development environment it should be placed into whatever your <code>baseUrl</code> in require.js configuration is pointing to (usually <code>src/</code>).</p>
+
+        <p>Here's an example configuration:</p>
+
+        <pre>define({
+    name: 'ENM',
+    defaultApp: 'launcher'
+});</pre>
+
+        <ul>
+            <li><strong>name</strong>: system name which is displayed in the system bar on the left. If not specified, the default value <strong>ENM</strong> will be used instead.</li>
+            <li><strong>defaultApp</strong>: app to be loaded when none is specified in the URL. Loading will be performed by redirecting to the &#35;&ls;defaultApp&gt; URL</li>
+        </ul>
+
+    </body>
+</document>

@@ -1,0 +1,18 @@
+# Eclipse related files
+.settings
+.classpath
+.project
+
+# InteliJ files #
+worskpace.xml
+.idea/
+*.iml
+
+# We ignore log files as well
+*.log
+
+# Build related folders
+target/
+
+node_modules/
+tmp/

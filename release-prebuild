@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+# Version info
+currentVersion=`mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version|grep "^[0-9]*\.[0-9]*\.[0-9]*"`
+cleanedVersion=`echo $currentVersion | sed -e 's/[^0-9][^0-9]*$//'`
+incrementalVersion=`echo $cleanedVersion | cut -d"." -f3`
+minorVersion=`echo $cleanedVersion | cut -d"." -f2`
+majorVersion=`echo $cleanedVersion | cut -d"." -f1`
+
+case $UPDATE_TYPE in
+    "major" )
+        majorVersion=$(($majorVersion+1))
+        minorVersion="0"
+        incrementalVersion="0" ;;
+    "minor" )
+        minorVersion=$(($minorVersion+1))
+        incrementalVersion="0" ;;
+    * )
+        incrementalVersion=$(($incrementalVersion+1)) ;;
+esac
+
+VERSION=`echo $majorVersion.$minorVersion.$incrementalVersion`
+
+# Update version
+mvn versions:set -DnewVersion=$VERSION
+
+# Update revision history
+if [ "$UPDATE_DOCS" = "true" ]; then
+  if pcregrep -qM "<ul>([\s\n])*</ul>" docs/site/xdoc/revisions.xml; then
+    echo "No revision history entered for this build"
+    exit 1
+  else
+    echo ""
+  fi
+
+  echo "Updating dependencies in revision history"
+
+  dependencies=""
+  for module in jscore branding; do
+    version=`grep -i '"version"' node_modules/$module/package.json | sed -e 's/\s*"version": "\(.*\)",\s*/\1/g'`
+    dependencies=$dependencies"$module $version<br\/>"
+  done
+
+  DATE=`date +%d\\\\/%m\\\\/%y`
+  sed -i -e '
+  s/<td class="dependencies">/<td>'"$dependencies"'/;
+  s/<strong class="latest"><a href="..\/${version}\/${package_name}">Latest<\/a>/<strong class="latest"><a href="..\/'"$VERSION"'\/${package_name}">'"$VERSION"' ('"$DATE"')<\/a>/g
+  ' docs/site/xdoc/revisions.xml
+fi

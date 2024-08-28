@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+    <properties>
+        <title>Client Container - Breadcrumb</title>
+    </properties>
+    <body>
+
+        <h1>Breadcrumb</h1>
+
+        <p class="exampleButtons">
+            <a href="http://presentation-layer.lmera.ericsson.se/prototypes/breadcrumb/">
+                <button class="ebBtn ebBtn_color_green ebBtn-coloured">Live Example</button>
+            </a>
+        </p>
+
+        <p>Breadcrumb is a navigation element typically placed on top of the page, it <a href="../../widgets/latest/showcase/#breadcrumb">is available</a> as a widget. It's up to the app developer how exactly the widget should be used; however, container provides support for generating breadcrumb data from <a href="app-config.html">config.js</a> files.</p>
+
+        <p>Let's say you have an app called <strong>network-overview</strong> containing three child apps, described by the following config.js:</p>
+
+        <pre>define({
+    "script": "network-overview/NetworkOverview",
+    "title": "Network Overview",
+    "children": [
+        { app: "active-alerts" },
+        { app: "network-map" },
+        { app: "managed-nodes" }
+    ]
+});</pre>
+
+        <p>Breadcrumb data provided by the container is passed as a <strong>breadcrumb</strong> option during app's initialization. Instantiate breadcrumb widget with that data and attach it to the DOM:</p>
+
+        <pre>define([
+    'jscore/core',
+    'widgets/Breadcrumb',
+    './MyAppView'
+], function (core, Breadcrumb, View) {
+
+    return core.App.extend({
+
+        View: View,
+
+        onStart: function () {
+            var breadcrumb = new Breadcrumb({data: this.options.breadcrumb});
+            breadcrumb.attachTo(this.view.getBreadcrumb()); // getBreadcrumb() should return a placeholder element for the breadcrumb
+        }
+
+    });
+
+});
+</pre>
+
+    <p>Of course, you can modify breadcrumb data provided by container before using it in the widget to better suit your app's needs.</p>
+
+    </body>
+</document>

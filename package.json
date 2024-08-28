@@ -1,0 +1,11 @@
+{
+	"name": "container",
+	"version": "1.5.43",
+	"devDependencies": {
+		"jscore": "https://arm1s11-eiffel004.eiffel.gic.ericsson.se:8443/nexus/service/local/artifact/maven/redirect?r=releases&g=com.ericsson.oss.uisdk.clientsdk&a=jscore&v=LATEST&e=tar.gz&c=dev",
+		"branding": "https://arm1s11-eiffel004.eiffel.gic.ericsson.se:8443/nexus/service/local/artifact/maven/redirect?r=releases&g=com.ericsson.oss&a=branding&v=LATEST&e=tar.gz&c=dev",
+		"casperjs": "1.1.0-beta3",
+		"rsvp": "3.0.3",
+		"shelljs": "0.2.6"
+	}
+}

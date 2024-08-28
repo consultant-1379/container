@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+    <properties>
+        <title>Client Container - App Configuration</title>
+    </properties>
+    <body>
+
+        <h1>App Configuration</h1>
+
+        <p>In order to be recognized by container, an app should contain a file called <code>config.js</code> (not to be confused with <a href="config.html">container configuration file</a> of the same name). Here's an example of this file:</p>
+
+        <pre>define({
+    "script": "active-alerts/ActiveAlerts",
+    "title": "Active Alerts",
+    "paths": {
+        "jscore": "jscore/1",
+        "widgets": "widgets/1",
+        "assets": "assets/1"
+    },
+    "children": [
+        { app: "alerts-log" },
+        { app: "alerts-settings" }
+    ]
+});</pre>
+
+        <ul>
+            <li><strong>script</strong> points to the main app class (without .js suffix)</li>
+            <li><strong>title</strong> is app's title. It is used in the <a href="breadcrumb.html">breadcrumb</a>. Also, current app's title will be used as tab title.</li>
+            <li><strong>paths</strong> contains mapping between library names and their location in the deployment environment (in the format of <code>&lt;name&gt;</code>/<code>&lt;version&gt;</code>). The main reason for having this property is to allow different applications to access different versions of the same library within a single deployment. Only major versions can be used here. For more details please refer to <a href="http://requirejs.org/docs/api.html#config-paths">require.js documentation</a>.</li>
+            <li><strong>children</strong> is a list of child applications. For instance, in the example above accessing #active-alerts/alerts-log will start an app called alerts-log. This feature allows URL to reflect the hierarchical structure of different apps within a single system, it also provides a basis for creating <a href="breadcrumb.html">breadcrumb</a>.</li>
+        </ul>
+
+        <p>Please note that it's not possible to use the same config.js for development and production environments. <strong>paths</strong> property can't be used during app development - the paths to the dependencies will be different and should be controller by require.js configuration.</p>
+    </body>
+</document>

@@ -1,0 +1,49 @@
+.applyVerticalGradient(@defaultColor, @topColor, @bottomColor) {
+    background: @defaultColor;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, @topColor), color-stop(1, @bottomColor));
+    background: -ms-linear-gradient(top, @topColor, @bottomColor);
+    background: -o-linear-gradient(center top, @topColor 0%, @bottomColor 100%);
+    background: -webkit-linear-gradient(center top, @topColor 0%, @bottomColor 100%);
+    background: -moz-linear-gradient(center top, @topColor 0%, @bottomColor 100%);
+    background: linear-gradient(center top, @topColor 0%, @bottomColor 100%);
+}
+
+.eaContainer {
+
+    &-LogoutButton {
+        display: inline-block;
+        line-height: 40px;
+        vertical-align: middle;
+
+        &-link {
+            color: #0066B3;
+            font-size: 1.2rem;
+            padding: 0 18px 0 40px;
+            background-color: transparent;
+            background-repeat: no-repeat;
+            background-position: 18px center;
+            border-left: solid 1px #D2D2D2;
+            display: block;
+            text-decoration: none;
+            cursor: pointer;
+            background-image: url("@{current-url}/logout.svg");
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+        &:hover {
+            .applyVerticalGradient(#E8E8E8, #F2F2F2, #E8E8E8);
+        }
+    }
+
+    @media screen and (max-width: 640px) {
+        &-LogoutButton {
+            &-link {
+                padding-left: 34px;
+                text-indent: -9999px;
+                width: 0;
+            }
+        }
+    }
+}

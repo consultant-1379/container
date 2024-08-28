@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+    <properties>
+        <title>App Communication</title>
+    </properties>
+    <body>
+        <h1>App Communication</h1>
+
+        <p class="exampleButtons">
+            <a href="http://presentation-layer.lmera.ericsson.se/prototypes/app-communication/">
+                <button class="ebBtn ebBtn_color_green ebBtn-coloured">Live Example</button>
+            </a>
+        </p>
+
+        <p>With the ability to run multiple apps in the same deployment, it seems natural for them to communicate. The are two common communication scenarios described here.</p>
+
+        <h2>Scenario 1: App A wants to send some data to app B</h2>
+
+        <p>In this simple scenario, the most natural approach is to pass data to app B directy in the URL. However, URL length a limited to 2 KB. That's why it is recommended to use it for passing only small amounts of data - e.g. a single ID, a small collection of IDs or a short string. Please see <strong>URL context passing restrictions</strong> section on ways around this restriction.</p>
+
+        <p>App B determines the structure of URL - it is essentially its public API which app A should be aware of. In most cases where it is sufficient to pass just a single ID, go for clean and RESTful URLs, e.g. instead of:</p>
+
+        <pre>#appb/somecollection?id=123</pre>
+
+        <p>prefer:</p>
+
+        <pre>#appb/somecollection/123</pre>
+
+        <h2>Scenario 2: App A needs to retrieve some user-entered data from app B</h2>
+        <p>This scenario implies user needs to interact with app B in one way or another, e.g. select existing or enter new data using the UI provided by app B. If no such interaction is required (i.e. all request data is known), then app A should simply talk to the REST service provided by app B.</p>
+
+        <p>A typical workflow is described as follows:</p>
+
+        <ol>
+            <li>App A redirects to app B to retrieve some data;</li>
+            <li>User selects or enters the required data;</li>
+            <li>App B returns back to app A by passing the context with data selected in previous step.</li>
+        </ol>
+
+        <p>The idea behing context passing is to send the required data back from app B to app A in the URL. This is similar to the simple scenario descibed above, with the addition of one extra step in the beginning. This is how a typical URL history from such communication would look like:</p>
+
+        <ul>
+            <li>#a</li>
+            <li>#b/somequery?context=a</li>
+            <li>#a?b_data=some_data</li>
+        </ul>
+
+        <p>Generally there might be multiple apps which want to exchange data with B. This means that app B should not depend on location or any other aspect of app A in any way, apart from how the data is send back. App A should also pass its URL when loading B which should then be used to redirect back.</p>
+
+        <p>The recommended way is to pass both pieces of data is to use the query string-like syntax:</p>
+
+        <ul>
+            <li>key <strong>context</strong> should be used for passing app's A URL to B;</li>
+            <li>key determined by app B should be passed back to app A with data at its value.</li>
+        </ul>
+
+        <h2>URL context passing restrictions</h2>
+        <p>As URL size is limited to 2 KB, make sure that the combined size of your data and the rest of the URL never exceeds this limit, even in the worst-case scenarios.</p>
+        <p>To pass anything larger than that, you should store the data on the the server, retrieve ID and include it into the URL. Application reading the URL should then retrieve the data from the REST service.</p>
+        <p>If you are sending anything more complex than a string or a number, you need to serialized the data to a string before appending it to the URL and then deserialize upon receiving. <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify"><code>JSON.stringify()</code></a> and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse"><code>JSON.parse()</code></a> can be used to (de)serialize data to JSON.</p>
+
+    </body>
+</document>

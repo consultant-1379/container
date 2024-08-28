@@ -1,0 +1,340 @@
+{
+    "properties": {
+        "buildDir": "target",
+        "optimizeDir": "$(buildDir)/optimized",
+        "packageDir": "$(buildDir)/package",
+        "devPackageDir": "$(buildDir)/package-dev",
+        "sdkTools": "$(pathToSdk)/tools",
+        "testRunner": "$(sdkTools)/test/test-runner.js",
+        "node": "node",
+        "npm": {
+            "?os.platform=windows": "npm.cmd",
+            "?os.platform=unix": "npm"
+        },
+        "jscoverage": {
+            "?os.platform=windows": "$(sdkTools)/jscoverage/jscoverage.exe",
+            "?os.platform=unix": "$(sdkTools)/jscoverage/jscoverage"
+        },
+        "phantomjs": {
+            "?os.platform=windows": "$(sdkTools)/phantomjs/bin/phantomjs.exe",
+            "?os.platform=unix": "$(sdkTools)/phantomjs/bin/phantomjs"
+        },
+        "uglifyjs": "$(node) $(pathToSdk)/node_modules/uglify-js/bin/uglifyjs",
+        "rjs": "$(node) $(pathToSdk)/node_modules/requirejs/bin/r.js",
+        "jshint": "$(node) $(pathToSdk)/node_modules/jshint/bin/jshint",
+        "cssverify": "$(node) $(sdkTools)/cssverify/cssverify.js",
+        "name": "container",
+        "title": "JSCore Container",
+        "version": "0.0.8-SNAPSHOT",
+        "modulesDir": "node_modules"
+    },
+    "defaultPhase": "package",
+    "phases": {
+        "clean": {
+            "delete": {
+                "target": "$(buildDir)"
+            }
+        },
+
+        "update-package-json": {
+            "mergeJson": {
+                "file": "package.json",
+                "json": {
+                    "name": "$(name)",
+                    "version": "$(version)"
+                }
+            }
+        },
+
+        "install-dependencies": {
+            "execute": {
+                "command": "$(npm)",
+                "attributes": [
+                    "install",
+                    "--tmp",
+                    "tmp",
+                    "--registry",
+                    "http://presentation-layer.lmera.ericsson.se/registry",
+                    "--cache",
+                    "tmp/.npm"
+                ]
+            }
+        },
+
+        "copy-test-files": {
+            "copy": {
+                "from": [
+                    "test"
+                ],
+                "to": "$(buildDir)/"
+            }
+        },
+
+        "copy-tools": {
+            "copy": {
+                "from": "$(sdkTools)/*",
+                "to": "$(buildDir)/_tools/"
+            }
+        },
+
+        "copy-node_modules": {
+            "depends": ["install-dependencies"],
+            "copy": {
+                "from": "node_modules",
+                "to": "$(buildDir)/"
+            }
+        },
+
+        "jscoverage": {
+            "execute": {
+                "command": "$(jscoverage)",
+                "attributes": [
+                    "src",
+                    "$(buildDir)/src"
+                ]
+            }
+        },
+
+        "prepare-tests": {
+            "depends": [
+                "copy-test-files",
+                "copy-tools",
+                "copy-node_modules",
+                "jscoverage"
+            ]
+        },
+
+        "test-unit": {
+            "depends": [ "prepare-tests" ],
+            "execute": {
+                "command": "$(phantomjs)",
+                "attributes": [
+                    "$(testRunner)",
+                    "--root $(buildDir)",
+                    "--reports $(buildDir)/reports/unit",
+                    "--type unit",
+                    "--title \"$(title)\""
+                ]
+            }
+        },
+
+        "test-bit": {
+            "depends": [ "prepare-tests" ],
+            "execute": {
+                "command": "$(phantomjs)",
+                "attributes": [
+                    "$(testRunner)",
+                    "--root $(buildDir)",
+                    "--reports $(buildDir)/reports/bit",
+                    "--type bit",
+                    "--title \"$(title)\""
+                ]
+            }
+        },
+
+        "test": {
+            "depends": [ "test-unit", "test-bit" ]
+        },
+
+        "jshint": {
+            "jshint": {
+                "exclude": [
+                    "src/container/promise.js"
+                ]
+            }
+        },
+
+        "copy-index": {
+            "copy": {
+                "from": "index-prod.html",
+                "to": "$(packageDir)/index.html"
+            }
+        },
+
+        "copy-resources": {
+            "copy": {
+                "from": "resources",
+                "to": "$(packageDir)/$(name)/"
+            }
+        },
+
+        "copy-container-components": {
+            "copy": {
+                "from": "containerComponents.js",
+                "to": "$(packageDir)/containerComponents.js"
+            }
+        },
+
+        "copy-config": {
+            "copy": {
+                "from": "config.js",
+                "to": "$(packageDir)/config.js"
+            }
+        },
+
+        "compile": {
+            "depends": [
+                "clean",
+                "update-package-json",
+                "jshint",
+                "prepare-tests",
+                "install-dependencies",
+                "optimize-prod",
+                "copy-resources",
+                "copy-index",
+                "copy-config",
+                "copy-container-components"
+            ],
+            "copy": {
+                "from": [
+                    "scripts"
+                ],
+                "to": "$(packageDir)/"
+            }
+        },
+
+        "package-prod": {
+            "depends": ["compile"],
+            "compress": {
+                "root": "$(packageDir)",
+                "files": ["$(name)", "index.html", "scripts", "config.js", "containerComponents.js"],
+                "target": "$(buildDir)/$(name)-$(version).tar.gz"
+            }
+        },
+
+        "optimize-dev": {
+            "rjs": {
+                "config": {
+                    "dir": "$(optimizeDir)",
+                    "resources": "node_modules/container/resources",
+                    "development": true,
+                    "packageDir": "$(devPackageDir)"
+                }
+            },
+            "concat": {
+                "files": [
+                    "lib/require.js",
+                    "src/container/dev.js",
+                    "$(devPackageDir)/container/loader.js"
+                ],
+                "target": "$(devPackageDir)/container/main.js"
+            },
+            "delete": {
+                "target": "$(devPackageDir)/container/loader.js"
+            }
+        },
+
+        "optimize-prod": {
+            "rjs": {
+                "config": {
+                    "dir": "$(optimizeDir)",
+                    "resources": "container/resources",
+                    "packageDir": "$(packageDir)"
+                }
+            },
+            "concat": {
+                "files": [
+                    "lib/require.js",
+                    "src/container/prod.js",
+                    "$(packageDir)/container/loader.js"
+                ],
+                "target": "$(packageDir)/container/main.js"
+            },
+            "delete": {
+                "target": "$(packageDir)/container/loader.js"
+            }
+        },
+
+        "copy-index-dev": {
+            "depends": ["optimize-dev"],
+            "copy": {
+                "from": "index-dev.html",
+                "to": "$(devPackageDir)/container/index.html"
+            }
+        },
+
+        "copy-resources-dev": {
+            "depends": ["copy-index-dev"],
+            "copy": {
+                "from": "resources",
+                "to": "$(devPackageDir)/container/"
+            }
+        },
+
+        "copy-container-components-dev": {
+            "depends": ["copy-resources-dev"],
+            "copy": {
+                "from": "containerComponents.js",
+                "to": "$(devPackageDir)/container/containerComponents.js"
+            }
+        },
+
+        "copy-package-json-dev": {
+            "depends": [ "copy-container-components-dev"],
+            "copy": {
+                "from": "config/package.json",
+                "to": "$(devPackageDir)/container/"
+            },
+            "mergeJson": {
+                "file": "$(devPackageDir)/container/package.json",
+                "json": {
+                    "version": "$(version)"
+                }
+            }
+        },
+
+        "compile-dev": {
+            "depends": ["copy-package-json-dev"]
+        },
+
+        "package-dev": {
+            "depends": ["compile-dev"],
+            "execute": {
+                "command": "$(npm)",
+                "attributes": [
+                    "pack",
+                    "$(devPackageDir)/container",
+                    "--tmp",
+                    "tmp",
+                    "--cache",
+                    "tmp/.npm"
+                ]
+            },
+            "copy": {
+                "from": "$(name)-$(version).tgz",
+                "to": "$(buildDir)/$(name)-dev-$(version).tar.gz"
+            },
+            "delete": {
+                "target": "$(name)-$(version).tgz"
+            }
+        },
+
+        "prepare-acceptance-tests": {
+            "depends": ["compile", "compile-dev"],
+            "execute": {
+                "command": "$(node)",
+                "attributes": [
+                    "$(buildDir)/test/acceptance/prepare.js"
+                ]
+            }
+        },
+
+        "acceptance-tests": {
+            "depends": ["prepare-acceptance-tests"],
+            "execute": {
+                "command": "$(phantomjs)",
+                "attributes": [
+                    "node_modules/casperjs/bin/bootstrap.js",
+                    "--casper-path=node_modules/casperjs",
+                    "--cli",
+                    "test",
+                    "test/acceptance/main.js"
+                ]
+            }
+        },
+
+        "package": {
+            "depends": ["acceptance-tests", "package-prod", "package-dev"]
+        }
+    }
+}

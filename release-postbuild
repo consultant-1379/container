@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+currentVersion=`mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version|grep "^[0-9]*\.[0-9]*\.[0-9]*"`
+VERSION=`echo $currentVersion | sed -e 's/[^0-9][^0-9]*$//'`
+
+# UDT
+echo "Publishing UDT package information"
+URL="https://arm1s11-eiffel004.eiffel.gic.ericsson.se:8443/nexus/content/repositories/releases/com/ericsson/oss/clientcommon/container/$VERSION/container-$VERSION-dev.tar.gz"
+DOCS="https://arm1s11-eiffel004.eiffel.gic.ericsson.se:8443/nexus/content/sites/tor/uisdkcontainer/$VERSION/"
+curl -H 'Content-Type: application/json' -X PUT -d '{"url": "'$URL'", "docs": "'$DOCS'"}' http://presentation-layer.lmera.ericsson.se/udt-packages/container/$VERSION
+
+# Update docs
+if [ "$UPDATE_DOCS" = "true" ]; then
+  echo "Updating revision history"
+
+  sed -i -e '
+  s/<strong class="latest"/<strong class="latest"><a href="..\/${version}\/${package_name}">Latest<\/a><\/strong>\n                    <ul>\n                    <\/ul>\n                <\/td>\n                <td class="dependencies">\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>\n                    <strong/g
+  ' docs/site/xdoc/revisions.xml
+  git add docs/site/xdoc/revisions.xml
+fi
+
+# Commit
+git add pom.xml
+git add package.json
+git commit -m "Releasing $VERSION"
+git tag "${VERSION}" --force
+
+# Push
+git push origin HEAD:master --tags

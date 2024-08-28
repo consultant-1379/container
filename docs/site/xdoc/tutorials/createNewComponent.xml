@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+    <properties>
+        <title>Tutorials - Create a new component</title>
+    </properties>
+    <body>
+
+        <h1>Create a new component</h1>
+
+        <a href="profilebuttonSrc.zip">
+            <button class="ebBtn ebBtn_color_darkBlue ebBtn-coloured">Download Source</button>
+        </a>
+
+        <p>Before any steps, it is important to state that the container has no communication with the application
+            running, also, any libraries (Asset, Widget, Chart) are not available from the Container.
+        </p>
+
+        <h2>Prerequisites</h2>
+        <p>You should have a good understanding of the
+            <a href="../../uisdk/latest/index.html">UI SDK principles</a>, this tutorials will use the JSCore Regions,
+            if you are not familiar with this concept please read
+            <a href="../../jscore/latest/examples/example-regions.html">JSCore Fwk - Creating Regions</a>
+        </p>
+
+        <h2>Tutorial</h2>
+
+        <p>
+            On this tutorial, we will explain how to create a new container system bar component.
+            The example will be a simple profile button displaying text on click action.
+            First, create a new JSCore Region.
+        </p>
+        <p>Your folder should look like this</p>
+
+<pre>profilebutton/
+    ProfileButton.js
+    ProfileButtonView.js
+    profileButton.html
+    profileButton.less</pre>
+
+        <p>ProfileButton.js</p>
+
+<source>/*global define*/
+define([
+    'jscore/core',
+    './ProfileButtonView'
+], function (core, View) {
+    'use strict';
+
+    return core.Region.extend({
+        name:"Profile",
+        order:"200",// it defines the position order
+
+        View: View,
+
+        onStart: function (options) {
+            this.options = options || {};
+            this.addHandler();
+        },
+
+        addHandler: function () {
+            var button = this.view.getButton();
+            button.addEventHandler('click', function () {
+                var panel = this.view.getPanel();
+                var display = (panel.getStyle('display') === 'block') ? 'none' : 'block';
+                panel.setStyle('display', display);
+            }.bind(this));
+        }
+    });
+});</source>
+
+        <p>ProfileButtonView.js</p>
+
+<source>/*global define*/
+define([
+    'jscore/core',
+    'text!./profileButton.html',
+    'styles!./profileButton.less'
+], function (core, template, styles) {
+    'use strict';
+
+    return core.View.extend({
+
+        getTemplate: function () {
+            return template;
+        },
+        getStyle: function () {
+            return styles;
+        },
+        getButton: function () {
+            return this.getElement().find(".eaContainer-ProfileButton-button");
+        },
+        getPanel: function () {
+            return this.getElement().find(".eaContainer-ProfileButton-panel");
+        }
+    });
+});</source>
+        
+        <p>profileButton.html</p>
+
+<source>&lt;div class="eaContainer-ProfileButton"&gt;
+    &lt;span class="eaContainer-ProfileButton-button"&gt;Profile&lt;/span&gt;
+
+    &lt;div class="eaContainer-ProfileButton-panel"&gt;
+        &lt;table class="eaContainer-ProfileButton-table"&gt;
+            &lt;tr class="eaContainer-ProfileButton-tableRow"&gt;
+                &lt;td class="eaContainer-ProfileButton-tableCol" colspan="2"&gt;Stephen Hawking&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr class="eaContainer-ProfileButton-tableRow"&gt;
+                &lt;td class="eaContainer-ProfileButton-tableCol"&gt;Logged since&lt;/td&gt;
+                &lt;td class="eaContainer-ProfileButton-tableCol"&gt;18 / 10 / 2013&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr class="eaContainer-ProfileButton-tableRow"&gt;
+                &lt;td class="eaContainer-ProfileButton-tableCol"&gt;Last time logged&lt;/td&gt;
+                &lt;td class="eaContainer-ProfileButton-tableCol"&gt;28 / 09 / 2013&lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/table&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</source>
+
+        <p>profileButton.less</p>
+
+<source>.eaContainer-ProfileButton {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+
+    &amp;-button {
+        color: #0066B3;
+        font-size: 1.2rem;
+        line-height: 40px;
+        padding: 0 18px;
+        background-color: transparent;
+        border-left: solid 1px #D2D2D2;
+        display: block;
+        text-decoration: none;
+        cursor: pointer;
+
+        &amp;:hover {
+            text-decoration: underline;
+        }
+    }
+    &amp;-panel {
+        position: absolute;
+        right: 0;
+        top: 45px;
+        padding: 5px 0;
+
+        background-color: #f5f5f5;
+        border: solid 1px #d2d2d2;
+        border-radius: 3px;
+        display: none;
+    }
+    &amp;-table {
+        width: 100%;
+        text-align: right;
+
+        &amp;Row{
+            padding: 5px 0;
+            line-height: 2.5rem;
+        }
+        &amp;Col{
+            white-space: nowrap;
+            padding: 0 10px;
+        }
+    }
+
+    &amp;:hover {
+        background-color: #e8e8e8;
+    }
+}</source>
+
+         <p>From here, you need to integrate it in the Container, to do so, open the file <code>containerComponents.js</code> and add the path to your component.</p>
+
+<source>define({list: [
+    {path: "container/components/profilebutton/ProfileButton"}
+]});</source>
+
+        <p>
+            To See the result open the CLI and run<code>cdt serve</code>.
+        </p>
+    </body>
+</document>

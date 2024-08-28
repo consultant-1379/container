@@ -1,0 +1,15 @@
+<a name="props_{{name}}"></a>
+<div class="props item">
+    <p class="method_title">
+        <em>{{#if final}}final {{/if}}
+            {{#if static}}static {{/if}}
+        </em>
+        {{#if type}}{{type}}{{/if}}
+        <strong>{{name}}</strong>
+    </p>
+    {{{propertyDescription}}}
+    {{#if example}}
+        {{#printExample example}}
+        {{/printExample}}
+    {{/if}}
+</div>

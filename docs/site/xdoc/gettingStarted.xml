@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+    <properties>
+        <title>Getting Started</title>
+    </properties>
+    <body>
+
+        <h1>Getting Started</h1>
+        <h2>Prerequisites</h2>
+
+        <p>
+            You should have basic understanding of the JavaScript language and writing
+            <a href="../../jscore/latest/modularJS.html">Modular JavaScript</a>
+            using require.js as well as HTML language and CSS. You should also read the
+            <a href="/../../jscore/latest/guidelines/appStructure.html">Client Architecture</a>
+            and
+            <a href="/../../jscore/latest/guidelines/scale_arch.html">App Structure</a>
+            descriptions
+        </p>
+
+        <h2>Using in Development</h2>
+
+        <p>In order to run your app within the container in development mode, download using the link below and extract archive contents to <code>node_modules/container/</code>.</p>
+
+        <p>
+        <a href="container-dev.tar.gz">
+            <button class="ebBtn ebBtn_color_darkBlue ebBtn-coloured ">Download Container (development version)</button>
+        </a>
+        </p>
+
+        <p>Alternatively, add the following dependency to your package.json:</p>
+
+        <source>
+    "devDependencies": {
+        ...
+        "container": "https://arm1s11-eiffel004.eiffel.gic.ericsson.se:8443/nexus/service/local/artifact/maven/redirect?r=releases&amp;g=com.ericsson.oss.clientcommon&amp;a=container&amp;v=LATEST&amp;e=tar.gz&amp;c=dev"
+    }
+        </source>
+
+        <p>Run <code>cdt build install-dependencies</code> to install the container. Remove index.html from the project root, as container provides its own. At this stage, running <code>cdt serve</code> should start your app within the container.</p>
+
+        <h2>Using in Production</h2>
+
+        <p>To deploy the container, download production version from the link below and exract it to the target folder. You also need to do the same with all of your applications and their dependencies.</p>
+        <p>
+        <a href="container.tar.gz">
+            <button class="ebBtn ebBtn_color_darkBlue ebBtn-coloured ">Download Container (production version)</button>
+        </a>
+        </p>
+
+        <p>The resulting structure includes as well the uisdk packages installed (JSCore, Assets / Widgets / Charting Lib, ...)</p>
+
+        <source>
+deploymentRoot/
+    assets/
+    chartlib/
+    config.js
+    container/
+    containerComponents.js
+    index.html
+    jscore/
+    myapp/
+        config.js
+        MyApp.js
+    mysecondapp/
+        config.js
+        MySecondApp.js
+    widgets/
+        </source>
+
+        <p>Run the following command to see the result:</p>
+        <pre>cdt serve</pre>
+    </body>
+</document>

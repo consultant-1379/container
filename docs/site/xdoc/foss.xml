@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+    <properties>
+        <title>FOSS and 3PP</title>
+    </properties>
+    <body>
+        <h1>FOSS</h1>
+        <p>JavaScript Core Framework is used by Client Container.
+            <a href="/../../jscore/latest/foss.html">See JSCore Foss page</a>
+        </p>
+
+        <h1>3PP</h1>
+        <p>No commercial 3PP is included in Client Container.</p>
+    </body>
+</document>

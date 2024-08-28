@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+    <properties>
+        <title>Client Container - System Bar</title>
+    </properties>
+    <body>
+
+        <h1>System Bar</h1>
+
+        <p>An important feature provided by container is the System Bar - a fixed-height bar on the page top containing Ericsson-branded colored stripe, application title and a set of custom elements.</p>
+
+        <p>Configuration is performed in the file called <code>containerComponents.js</code>, which is located in the root of deployment folder:</p>
+<pre>define({
+    list: [
+        { path: "container/components/HelpButton/HelpButton" },
+        { path: "container/components/LogoutButton/LogoutButton" }
+    ]
+});</pre>
+    <p>Each of the entries in the <code>list</code> array contains a single property, <code>path</code>, which defines the location of the System Bar component file relatively to the index.html. Don't include <code>.js</code> extension in the path.</p>
+
+    </body>
+</document>

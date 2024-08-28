@@ -1,0 +1,52 @@
+{{#ifNotPrivate access}}
+<a name="methods_{{name}}"></a>
+<div class="method item{{#if access}} {{access}}{{/if}}">
+    <div class="method_title">
+        <div><span><em>{{#if access}}{{access}} {{/if}}
+        {{#if static}}static {{/if}}
+        {{#if final}}final {{/if}}</em>
+        {{#if returnType}}{{returnType}} {{/if}}
+        <strong>{{name}}</strong> ( {{paramsList}} )</span></div>
+        {{#if beta}}<div class="api-status api-status-beta">Beta</div>{{/if}}{{#if deprecated}}<div class="api-status api-status-deprecated">Deprecated</div>{{/if}}
+    </div>
+    <p class="method_description">
+    {{{methodDescription}}}
+    {{#if params}}
+    <strong>Parameters:</strong>
+    <ul class="params">
+    {{#params}}
+        <li>
+           {{name}}{{#if type}}: <em>{{type}}</em>{{/if}} {{#if optional}}(optional){{/if}}{{#if multiple}} (0...n){{/if}}
+        </li>
+
+        {{{description}}}
+            {{#if props}}
+            <ul>
+            {{#props}}
+                <li>`{{name}}` <strong>&lt;{{#crossLink type}}{{/crossLink}}&gt;</strong> {{{description}}}
+                {{#if props}}
+                    <ul>
+                        {{#props}}
+                            <li>`{{name}}` <strong>&lt;{{#crossLink type}}{{/crossLink}}&gt;</strong> {{{description}}} </li>
+                        {{/props}}
+                    </ul>
+                {{/if}}
+                </li>
+            {{/props}}
+            </ul>
+            {{/if}}
+        </li>
+    {{/params}}
+    </ul>
+    {{/if}}
+    {{#if return}}
+    {{#return}}
+    <div class="returns"><strong>Returns:</strong> {{{description}}}{{#if type}}: <em>{{#crossLink type}}{{/crossLink}}</em> {{/if}}</div>
+    {{/return}}
+    {{/if}}
+    {{#if example}}
+        {{#printExample example}}
+        {{/printExample}}
+    {{/if}}
+</div>
+{{/ifNotPrivate}}

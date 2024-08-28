@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+    <properties>
+        <title>Revision History</title>
+    </properties>
+    <body>
+        <h1>Revision History</h1>
+
+        <h2>Version numbering</h2>
+        <p>The Client Container uses the following version numbering scheme:
+            <br/>
+            <strong>MAJOR.MINOR.PATCH (RELEASE_DATE)</strong>
+        </p>
+        <p>
+            <strong>MAJOR</strong>
+            version numbers are reserved for significant functional upgrades with breaking API changes.
+            <br/>
+            <strong>MINOR</strong>
+            version numbers are incremented for functional upgrades with backwards compatibility.
+            <br/>
+            <strong>PATCH</strong>
+            version numbers are incremented for bug fixes and improvements.
+        </p>
+        <p>
+            <strong>NB</strong>: Not all versions of the Client Container are tagged for release as supported versions.
+            Releases are selected and labelled builds.
+        </p>
+
+        <h2>Versions</h2>
+
+        <table>
+            <tr>
+                <th width="80%">Version Information</th>
+                <th width="20%">Dependencies</th>
+            </tr>
+            <tr>
+                <td>
+                    <strong class="latest"><a href="../${version}/${package_name}">Latest</a></strong>
+                    <ul>
+                    </ul>
+                </td>
+                <td class="dependencies">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong><a href="../1.5.43/${package_name}">1.5.43 (25/03/14)</a></strong>
+                    <ul>
+                        <li>Moved the container script tag to the body tag to avoid issues with DOM not being ready to load app.</li>
+                        <li>Fixed shared configuration bug.</li>
+                        <li>Fixed occasional app flicked during app switching.</li>
+                    </ul>
+                </td>
+                <td>jscore 1.1.15<br/>branding 1.1.11<br/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong><a href="../1.5.40/${package_name}">1.5.40 (11/03/14)</a></strong>
+                    <ul>
+                        <li>App's onStart method now receives namespace option.</li>
+                        <li>Fixed: under certain circumstances, system bar was loaded after application, causing buttons to misbehave.</li>
+                        <li>Fixed: no error stack printed if app fails to load.</li>
+                    </ul>
+                </td>
+                <td>jscore <br/>branding <br/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong><a href="../1.5.39/${package_name}">1.5.39 (07/03/14)</a></strong>
+                    <ul>
+                        <li>Fixed animation bug.</li>
+                    </ul>
+                </td>
+                <td>jscore <br/>branding <br/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong><a href="../1.5.38/${package_name}">1.5.38 (25/02/14)</a></strong>
+                    <ul>
+                        <li>New build process.</li>
+                    </ul>
+                </td>
+                <td>jscore 1.1.8<br/>branding 1.1.8<br/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong><a href="../1.5.31/${package_name}">1.5.31 (21/02/14)</a></strong>
+                    <ul>
+                        <li>Updated development container to support compiled apps in node_modules.</li>
+                    </ul>
+                </td>
+                <td>
+                    <a href="../../jscore/1.1.3/jscore-dev.tar.gz">JSCore v1.1.3</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong><a href="../1.5.7/${package_name}">1.5.7 (27/01/2014)</a></strong>
+                    <ul>
+                        <li>Changed default system name to ENM</li>
+                    </ul>
+                    <ul>
+                        <li>Bug
+                            <a href="${jira_link}CDS-1240">CDS-1240</a>
+                            Container fails to load as LogoutButton cannot be found.
+                        </li>
+                        <li>Bug <a href="${jira_link}CDS-1162">CDS-1162</a> fixed: container shows parent items in the breadcrumb as active.</li>
+                        <li>Bug
+                            <a href="${jira_link}CDS-1266">CDS-1266</a>
+                            Container problem after switch apps couldn't found the assets lib
+                        </li>
+                    </ul>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>
+                        <a href="../1.4.57/${package_name}">1.4.57 (15/12/2013)</a>
+                    </strong>
+                    <ul>
+                        <li><a href="${jira_link}CDS-927">CDS-927</a> As a developer I want a mechanism to define breadcrumb for container.</li>
+                    </ul>
+                    <ul>
+                        <li>Improvement: Tab title displays the name of currently active app.</li>
+                    </ul>
+                    <ul>
+                        <li>Bug <a href="${jira_link}CDS-740">CDS-740</a> fixed: application starts before styles are applied.</li>
+                        <li>Bug <a href="${jira_link}CDS-1175">CDS-1175</a> fixed: Assets are not loaded when using assets property in app config.</li>
+                    </ul>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>
+                        <a href="../1.4.50/${package_name}">1.4.50 (16/10/2013)</a>
+                    </strong>
+                    <ul>
+                        <li>
+                            <a href="${jira_link}CDS-632">CDS-632</a>
+                            As a developer I want container to be baselined.
+                        </li>
+                    </ul>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>
+                        <a href="../1.4.48/${package_name}">1.4.48 (04/10/2013)</a>
+                    </strong>
+                    <ul>
+                        <li>Bug
+                            <a href="${jira_link}CDS-565">CDS-565</a>
+                            fading in/out when navigating within an app having uppercase characters in its title.
+                        </li>
+                    </ul>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+    </body>
+</document>
